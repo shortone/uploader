@@ -1,0 +1,7 @@
+{
+	"name": "Uploader",
+	"description": "A simple node.js application to upload files.",
+	"dependencies": {
+		"formidable": "latest"
+	}
+}
