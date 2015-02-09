@@ -6,6 +6,11 @@ angular.module('UploaderApp', ['ngRoute'])
 		templateUrl: 'files.html'
 	})
 })
+.controller('UploadCtrl', function($scope) {
+	$scope.uploadComplete = function(content) {
+		
+	};
+})
 .controller('FilesCtrl', function($scope, $http) {
 	$http.get('api/files').success(function(data, status, headers, config) {
 		$scope.files = data;
