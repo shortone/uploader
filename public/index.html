@@ -16,6 +16,8 @@
     <!-- JS -->
     <script src="libs/angular/angular.min.js"></script>
     <script src="libs/angular-route/angular-route.min.js"></script>
+	<script src="libs/ng-file-upload-shim/angular-file-upload-shim.min.js"></script>
+	<script src="libs/ng-file-upload/angular-file-upload.min.js"></script>
     <script src="libs/ngUpload/ng-upload.min.js"></script>
     <script type="text/javascript" src="js/uploader.js"></script>
 </head>
@@ -28,16 +30,9 @@
 					<p class="lead">This is a simplistic application using multiple technologies to upload files to a server.</p>
 				</div>
 				<div class="col-lg-6" ng-controller="UploadCtrl">
-					<form ng-upload="uploadComplete(content)" action="/upload">
-						<div class="row">
-							<div class="col-lg-6">
-								<input type="file" name="file" />
-							</div>
-							<div class="col-lg-6">
-								<button type="submit" class="btn btn-info btn-lg btn-block"><span class="fa fa-upload"></span> Upload</button>
-							</div>
-						</div>
-					</form>
+					<div class="col-lg-6">
+						<button ng-file-select class="btn btn-info btn-lg btn-block" ng-model="files"><span class="fa fa-upload"></span> Upload</button>
+					</div>
 				</div>
 			</div>
 		</div>

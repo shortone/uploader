@@ -40,7 +40,8 @@ router.route('/files')
 	})
 	.post(function(req, res) {
 		var form = new formidable.IncomingForm();
-		form.uploadDir = './tmp';
+		form.uploadDir = './public/files';
+		form.keepExtensions = true;
 		form.parse(req, function(err, fields, files) {
 			if (err) {
 				res.json({
@@ -48,11 +49,11 @@ router.route('/files')
 				});
 			} else {
 				var file = new File();
-				file.name = files.upload.name;
-				file.size = files.upload.size;
-				file.path = files.upload.path;
-				file.type = files.upload.type;
-				file.mtime = files.upload.mtime;
+				file.name = files.file.name;
+				file.size = files.file.size;
+				file.path = files.file.path.substring(files.file.path.indexOf('/'));
+				file.type = files.file.type;
+				file.mtime = files.file.mtime;
 
 				file.save(function(err) {
 					if (err) {
