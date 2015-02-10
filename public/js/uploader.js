@@ -8,20 +8,20 @@ angular.module('UploaderApp', ['ngRoute', 'angularFileUpload'])
 })
 .service('fileService', function($http) {
 	var files = [];
-
-	this.update = function() {
-		$http.get('api/files').success(function(data, status, headers, config) {
-			files = data;
-		}).error(function(data, status, headers, config) {
-			console.log('there was an error...');
-		});
+	this.setFiles = function(f) {
+		files = f;
 	}
-
-	this.list = function() {
+	this.getFiles = function() {
 		return files;
+	};
+	this.update = function() {
+		return $http.get('/api/files').then(function(response) {
+			return response.data;
+		});
+	};
+	this.delete = function(_id) {
+		$http.delete('/api/files/' + _id);
 	}
-
-	this.update();
 })
 .controller('UploadCtrl', ['$scope', '$upload', 'fileService', function($scope, $upload, fileService) {
 	$scope.$watch('files', function() {
@@ -36,13 +36,27 @@ angular.module('UploaderApp', ['ngRoute', 'angularFileUpload'])
 					url: '/api/files',
 					file: file,
 				}).success(function(data, status, headers, config) {
-					console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
-					fileService.update();
+					fileService.update().then(function(files) {
+						fileService.setFiles(files);
+					});
 				});
 			}
 		}
 	};
 }])
 .controller('FilesCtrl', function($scope, fileService) {
-	$scope.files = fileService.list();
+	$scope.deleteFile = function(_id) {
+		fileService.delete(_id);
+		fileService.update().then(function(files) {
+			$scope.files = files;
+		});
+	};
+
+	$scope.files = fileService.getFiles();
+	fileService.update().then(function(files) {
+		$scope.files = files;
+	});
+	$scope.$watch(fileService.getFiles, function(files) {
+		$scope.files = files;
+	});
 });

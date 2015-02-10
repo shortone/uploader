@@ -64,6 +64,18 @@ router.route('/files')
 			}
 		});
 	});
+	
+router.route('/files/:id')
+	.delete(function(req, res) {
+		File.remove({
+			_id: req.params.id
+		}, function(err, file) {
+			if (err) {
+				res.send(err);
+			}
+			res.json(file);
+		})
+	});
 
 app.use('/api', router);
 

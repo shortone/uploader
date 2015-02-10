@@ -1,5 +1,5 @@
-<div ng-controller="FilesCtrl" id="files-list">
-	<div class="row" ng-repeat="file in files">
+<div ng-controller="FilesCtrl">
+	<div class="row" ng-repeat="file in files | orderBy: '-createdAt'">
 		<p class="bs-component">
 			<div class="file-description col-lg-8">
 				<h1>{{ file.name }} - {{ file.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</h1>
@@ -8,7 +8,7 @@
 				<a href="{{file.path}}" class="btn btn-success btn-lg btn-block"><span class="fa fa-download"></span> Download</a>
 			</div>
 			<div class="col-lg-2">
-				<button class="btn btn-primary btn-lg btn-block"><span class="fa fa-remove"></span> Delete</button>
+				<button ng-click="deleteFile(file._id)" class="btn btn-primary btn-lg btn-block"><span class="fa fa-remove"></span> Delete</button>
 			</div>
 		</p>
 	</div>
